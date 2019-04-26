@@ -10,6 +10,14 @@ std::pair<std::string, std::string> lastColNames;
 extern ContactAddedCallback	gContactAddedCallback;
 
 
+//gContactAddedCallback = MyContactAddedCallback;//or add it to an existing callback
+//
+//bool MyContactAddedCallback(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1)
+//{
+//	btAdjustInternalEdgeContacts(cp, colObj1Wrap, colObj0Wrap, partId1, index1);
+//	return true;
+//}
+
 bool callbackFunc(btManifoldPoint& cp,
 	const btCollisionObjectWrapper* obj1, int id1, int index1,
 	const btCollisionObjectWrapper* obj2, int id2, int index2)

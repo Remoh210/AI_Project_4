@@ -318,11 +318,7 @@ int main(void) {
 
 
  
-  
-
-
-
-
+ 
   // for (unsigned int objIndex = 0;
   //	objIndex != (unsigned int)vec_pObjectsToDraw.size();
   //	objIndex++)
@@ -350,8 +346,6 @@ int main(void) {
   GLint renderPassNumber_UniLoc =
       glGetUniformLocation(program, "renderPassNumber");
 
-  cGameObject *player = g_pCharacterManager->getActiveChar();
-  camera.setThirdPerson(player);
 #pragma endregion
   using namespace PostEffect;
   ScreenQuad screen_quad(SCR_WIDTH, SCR_HEIGHT);
@@ -399,32 +393,27 @@ int main(void) {
 
   BehaviourManager* behavManager = new BehaviourManager();
 
-  cGameObject* pPlayer = findObjectByFriendlyName("chan");
-  cGameObject* pWanderEnemy1 = findObjectByFriendlyName("mutant-1");
-  cGameObject* pWanderEnemy2 = findObjectByFriendlyName("mutant-2");
-  cGameObject* pWanderEnemy3 = findObjectByFriendlyName("mutant-3");
+  cGameObject* pPlayer = findObjectByFriendlyName("delorean");
+  //cGameObject* pWanderEnemy1 = findObjectByFriendlyName("mutant-1");
+  //cGameObject* pWanderEnemy2 = findObjectByFriendlyName("mutant-2");
+  //cGameObject* pWanderEnemy3 = findObjectByFriendlyName("mutant-3");
 
 
-  //pApproachEnemy->initPos = pApproachEnemy->position;
-  //pWanderEnemy->initPos = pWanderEnemy->position;
-  //pPursueEnemy->initPos = pPursueEnemy->position;
-  //pSeekEnemy->initPos = pSeekEnemy->position;
+  ////pApproachEnemy->initPos = pApproachEnemy->position;
+  ////pWanderEnemy->initPos = pWanderEnemy->position;
+  ////pPursueEnemy->initPos = pPursueEnemy->position;
+  ////pSeekEnemy->initPos = pSeekEnemy->position;
 
-  //Initialize Behaviours
+  ////Initialize Behaviours
 
-  WanderBehaviour* wander1 = new WanderBehaviour(pWanderEnemy1, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-  WanderBehaviour* wander2 = new WanderBehaviour(pWanderEnemy2, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-  WanderBehaviour* wander3 = new WanderBehaviour(pWanderEnemy3, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-  behavManager->SetBehaviour(pWanderEnemy1, wander1);
-  behavManager->SetBehaviour(pWanderEnemy2, wander2);
-  behavManager->SetBehaviour(pWanderEnemy3, wander3);
-
-
+  WanderBehaviour* wander1 = new WanderBehaviour(pPlayer, 50.2f, 200.2f, 0.0f, glm::vec3(0.0f), 100.0f, -100.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
+  //WanderBehaviour* wander2 = new WanderBehaviour(pWanderEnemy2, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
+  //WanderBehaviour* wander3 = new WanderBehaviour(pWanderEnemy3, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
+  behavManager->SetBehaviour(pPlayer, wander1);
+  //behavManager->SetBehaviour(pWanderEnemy2, wander2);
+  //behavManager->SetBehaviour(pWanderEnemy3, wander3);
 
 
-
-
-  cGameObject* boat = findObjectByFriendlyName("boat");
 
 
 
@@ -432,18 +421,8 @@ int main(void) {
   // Draw the "scene" (run the program)
   while (!glfwWindowShouldClose(window)) {
 	  ::pTheShaderManager->useShaderProgram("BasicUberShader");
-#pragma region framebuffer for portal 1
 
-      // Switch to the shader we want
-      
-
-      // First Portal
-      float ratio;
-      int width, height;
-      width = 600;
-      height = 800;
-
-
+     
 
 
      
@@ -467,11 +446,8 @@ int main(void) {
 
 
 
-        // glUniform1f(renderPassNumber_UniLoc, 1.0f);	// Tell shader it's the
-        // 1st pass
-
-        ratio;
-        width, height;
+		float ratio;
+		int width, height;;
 
         matProjection = glm::mat4(1.0f);
         matView = glm::mat4(1.0f);
@@ -511,15 +487,7 @@ int main(void) {
                            glm::value_ptr(matProjection));
         LightManager->CopyLightValuesToShader();
 
-        //glUniform1f(renderPassNumber_UniLoc, 2.0f);
-        //portal->bIsVisible = true;
-        //portal2->bIsVisible = true;
-        //matModel = glm::mat4(1.0f); // identity
-        //DrawObject(portal, matModel, program, FBO_Portal1);
-        //matModel = glm::mat4(1.0f); // identity
-        //DrawObject(portal2, matModel, program, FBO_Portal2);
-        //portal->bIsVisible = false;
-       // portal2->bIsVisible = false;
+
 		
         DrawScene_Simple(vec_pObjectsToDraw, program, 1);
         
@@ -588,41 +556,7 @@ int main(void) {
 
 #pragma region text_rendering
 
-        //		DrawScene_Simple(vec_non_transObj, program, 1);
-        //		DrawScene_Simple(vec_transObj, program, 1);
 
-        // for ( unsigned int objIndex = 0;
-        //	  objIndex != (unsigned int)vec_non_transObj.size();
-        //	  objIndex++ )
-        //{
-        //	cGameObject* pCurrentMesh = vec_non_transObj[objIndex];
-        //
-        //	glm::mat4x4 matModel = glm::mat4(1.0f);
-        //// mat4x4 m, p, mvp;
-
-        //	DrawObject(pCurrentMesh, matModel, program);
-
-        //}//for ( unsigned int objIndex = 0;
-
-        // for (unsigned int objIndex = 0;
-        //	objIndex != (unsigned int)vec_transObj.size();
-        //	objIndex++)
-        //{
-        //	cGameObject* pCurrentMesh = vec_transObj[objIndex];
-
-        //	glm::mat4x4 matModel = glm::mat4(1.0f);
-        //// mat4x4 m, p, mvp;
-
-        //	DrawScene_Simple(pCurrentMesh, matModel, program);
-
-        //}//for ( unsigned int objIndex = 0;
-
-        // DrawScene_Simple(std::vector<cGameObject*> vec_pMeshSceneObjects,
-        //	GLuint shaderProgramID,
-        //	unsigned int passNumber)
-        //{
-
-        //}
 
         double FPS_currentTime = glfwGetTime();
         nbFrames++;
@@ -698,35 +632,12 @@ int main(void) {
 
     } // for ( unsigned int objIndex = 0;
 
-    // sceneCommandGroup.Update(deltaTime);
 
-    // The physics update loop
 
     // New Dll physics
     gPhysicsWorld->Update(deltaTime);
 
-    // Collision listner, kind of....
 
-    //std::string PairF = gPhysicsWorld->GetLastColPair().first;
-    //std::string PairS = gPhysicsWorld->GetLastColPair().second;
-    //if (PairF == "chan" && PairS == "HingeCube" ||
-    //    PairS == "chan" && PairF == "HingeCube") {
-
-    //  collided = true;
-    //}
-    //if (collided) {
-    //  cGameObject *hgcube = findObjectByFriendlyName("HingeCube");
-    //  time += deltaTime;
-    //  if (time < 2.0f) {
-    //    hgcube->vecTextures[1].strength = 1.0f;
-    //    time += deltaTime;
-
-    //  } else {
-    //    hgcube->vecTextures[1].strength = 0.0f;
-    //    time = 0.f;
-    //    collided = false;
-    //  }
-    //}
 		
 
 
@@ -846,16 +757,13 @@ int main(void) {
 
         } else {
           curMesh->position = curMesh->rigidBody->GetPosition();
-          curMesh->m_meshQOrientation =
-              glm::mat4(curMesh->rigidBody->GetMatRotation());
+          //curMesh->m_meshQOrientation =
+            //  glm::mat4(curMesh->rigidBody->GetMatRotation());
         }
       }
     }
 	
-	if (boat->position.y < 40.0f)
-	{
-		boat->rigidBody->ApplyImpulse(glm::vec3(0.0f, 180.0f, 0.0f));
-	}
+
 
 
     //if (bIsDebugMode) {
@@ -907,101 +815,15 @@ int main(void) {
 #pragma endregion
 #pragma region whatever
 
-    //::p_LuaScripts->UpdateCG(deltaTime);
-    //::p_LuaScripts->Update(deltaTime);
-
-	behavManager->update(deltaTime);
-
-    player = g_pCharacterManager->getActiveChar();
-    if (camera.mCameraType == THIRD_PERSON)
-
-    {
-      camera.updateCameraVectors();
-      glm::vec3 lookDirection = camera.Position - player->position;
-      lookDirection.y = 0.0f;
-      lookDirection = glm::normalize(lookDirection);
-      glm::vec3 worldUP(0.0f, 1.0f, 0.0f);
-      glm::mat4 finalOrientation = glm::inverse(
-          glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookDirection, worldUP));
-      player->m_meshQOrientation = glm::toQuat(finalOrientation);
-
-      // camera.updateCameraVectors();
-      // glm::vec3 lookDirection = camera.Position - player->position;
-      // lookDirection.y = 1.0f;
-      // glm::quat rot1 = RotationBetweenVectors(glm::vec3(0.0f, 0.0f, 1.0f),
-      // -lookDirection);
-
-      // glm::vec3 desiredUp(0.0f, 1.0f, 0.0f);
-      // glm::vec3 right = glm::cross(-lookDirection, desiredUp);
-      // desiredUp = cross(right, -lookDirection);
-      // glm::vec3 newUp = rot1 * glm::vec3(0.0f, 1.0f, 0.0f);
-      // glm::quat rot2 = RotationBetweenVectors(newUp, desiredUp);
-      // glm::quat targetOrientation = rot2 * rot1;
-      // player->m_meshQOrientation = targetOrientation;
-    }
-
-	if (camera.mCameraType == AIM)
-	{
-		camera.updateCameraVectors();
-		//camera.updateCameraVectors();
-		glm::vec3 lookDirection = camera.Position + camera.Front;
-		//lookDirection.y = 0.0f;
-		lookDirection = glm::normalize(camera.Front);
-		lookDirection.y = 0.0f;
-		glm::vec3 worldUP(0.0f, 1.0f, 0.0f);
-		glm::mat4 finalOrientation = glm::inverse(
-			glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), -lookDirection * 10.0f, worldUP));
-		player->m_meshQOrientation = glm::toQuat(finalOrientation);
-
-	}
 
 
-	if (camera.mCameraType == FREE)
-	{
-		player->rigidBody->SetVelocity(glm::vec3(0.f));
-	}
 
-    // Update collision flag
-    for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
-      cGameObject *CurGo = vec_pObjectsToDraw[i];
-      if (CurGo->rigidBody != NULL) {
-        // if (CurGo->friendlyName == "chan")
-        //{
-        //	std::cout<< "GO col: " << CurGo->bHadCollision << std::endl;
-        //	std::cout << "RB col: " << CurGo->rigidBody->GetCollision() <<
-        // std::endl;
-        //}
-        CurGo->bHadCollision = CurGo->rigidBody->GetCollision();
-        CurGo->rigidBody->SetCollision(false);
-      }
-    }
 
-    // Ray Cast
-    glm::vec3 from = player->position + glm::vec3(0.0f, 10.0f, 0.0f);
-
-    glm::vec3 to = player->getForward();
-    to *= 50.0f;
-    to = to + player->position;
-    to.y = 10.0f;
-
-	if(bIsDebugMode)
-    g_pDebugRendererACTUAL->addLine(from, to, glm::vec3(0.0f, 1.0f, 0.0f));
-
-    bodyHit = gPhysicsWorld->RayCastGetObject(from, to);
-
-    // Kill Velocity for inactive characters
-
-    //g_pCharacterManager->setAllChatVel();
-    //{
-    //	std::cout << "hit" << std::endl;
-    //}
-    // else
-    //{
-    //	std::cout << "notHit" << std::endl;
-    //}
 
 	//Updaters
-	g_pCharacterManager->updateCharAnimControllers();
+	//::p_LuaScripts->UpdateCG(deltaTime);
+	//::p_LuaScripts->Update(deltaTime);
+	behavManager->update(deltaTime);
 	g_pSoundManager->Update();
 
 

@@ -96,6 +96,8 @@ public:
 	void setQOrientation(glm::quat newOrientation){ this->m_meshQOrientation = newOrientation; }
 
 
+	glm::vec3 getRelPos(glm::vec3 posInModelSpace);
+
 	glm::vec3 getForward(glm::vec3 forwardModelSpace = glm::vec3(0.0f, 0.0f, 1.0f));
 
 	void setUniformScale(float scale);

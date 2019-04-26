@@ -166,19 +166,6 @@ void key_callback( GLFWwindow* window,
 	}
 
 
-	//Process Jump only once
-	cGameObject* ch = g_pCharacterManager->getActiveChar();
-	glm::vec3 vel;
-	vel = ch->rigidBody->GetVelocity();
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && ch->pAniState->activeAnimation.name != "Run-jump")
-	{
-		glm::vec3 velj;
-		velj = ch->rigidBody->GetVelocity();
-		//ch->currentAnimation = "Run-jump";
-		velj.y = 17.0f;
-		ch->rigidBody->SetVelocity(velj);
-	}
-
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
@@ -197,14 +184,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_K))
 	{
-		if (camera.mCameraType == AIM)
-		{
-			camera.mCameraType = THIRD_PERSON;
-		}
-		else
-		{
-			camera.mCameraType = AIM;
-		}
+
 		
 	}
 
@@ -226,7 +206,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_4))
 	{
-		camera.mCameraType == THIRD_PERSON;
+
 
 
 	}
@@ -241,17 +221,6 @@ void key_callback( GLFWwindow* window,
 
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
-		bIsDebugMode = !bIsDebugMode;
-		if (camera.mCameraType == THIRD_PERSON)
-		{
-			camera.setFreeCamera();
-		}
-		else
-		{
-			
-			camera.mCameraType = THIRD_PERSON;
-		}
-		
 
 
 	}
@@ -272,7 +241,7 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_BACKSPACE))
 	{
 		//SwapThePhysics();
-		//::g_pSceneManager->saveScene("output.json");
+		::g_pSceneManager->saveScene("output.json");
 		//::g_pSceneManager->loadScene("scene1.json");
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 
@@ -532,17 +501,12 @@ bool AreAllModifiersUp(GLFWwindow* window)
 
 	if ( IsCtrlDown(window) )	{ return false;	} 
 	if ( IsAltDown(window) )	{ return false; }
-	// Yup, they are all UP
-//	cGameObject* player = findObjectByFriendlyName("Ufo2UVb");
 
-	//player->bIsUpdatedByPhysics = true;
 	if (glfwGetKey(window, GLFW_KEY_UP)) { 
 		
-//		player->accel += camera.Front * 1.01f;
-		//player->velocity = camera.Front * 200.0f;
+
 	}
-//	else{ player->accel = -player->velocity * 1.0f; }
-//	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);
+
 	return true;
 }
 
@@ -555,467 +519,6 @@ void ProcessAsynKeys(GLFWwindow* window)
 	const float CAMERA_SPEED_SLOW = 30.0f;
 	const float CAMERA_SPEED_FAST = 300.0f;
 
-	cGameObject* ch = g_pCharacterManager->getActiveChar();
-	glm::vec3 vel;
-	vel = ch->rigidBody->GetVelocity();
-	//prevent sliding jump
-	if (vel.y > 17.0f)
-	{
-		vel.y = 17.0f;
-	}
-
-
-
-
-
-	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-	{
-		cGameObject* testtt = findObjectByFriendlyName("boat");
-		testtt->rigidBody->ApplyImpulse(glm::vec3(0.0f, 200.0f, 0.0f), glm::vec3(5.0f, 0.0f, 5.0f));
-	}
-
-
-	//*********************************************** Joystick Controlls**********************************************************************
-
-	if (glfwJoystickPresent(GLFW_JOYSTICK_1) && contrMode == 1)
-	{
-		int count;
-		const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
-		const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
-
-		if (std::abs(axes[2]) > 0.2f || std::abs(axes[5]) > 0.2f)
-		{
-			camera.ProcessJoystickMovement(axes[2] * deltaTime, axes[5] * deltaTime);
-		}
-
-		
-
-
-
-		if(axes[4] > -0.5f)
-		{
-			
-			pickUP(ch);
-
-		}
-
-		if (buttons[0] == GLFW_PRESS)
-		{
-			pickBow(ch);
-		}
-
-		if (buttons[3] == GLFW_PRESS)
-		{
-			dropBow(ch);
-		}
-
-		//Jump
-
-		if (buttons[1] == GLFW_PRESS && ch->pAniState->activeAnimation.name != "Run-jump")
-		{
-			glm::vec3 vel;
-			vel = ch->rigidBody->GetVelocity();
-			vel.y = 17.0f;
-			ch->rigidBody->SetVelocity(vel);
-		}
-
-		glm::vec3 velVec;
-		glm::vec3 CamDir;
-		if (camera.mCameraType == THIRD_PERSON)
-		{
-			CamDir = camera.getDirectionVector();
-		}
-		else
-		{
-			CamDir = ch->getForward();
-		}
-		
-		if (buttons[5] == GLFW_PRESS)
-		{
-			ch->currentAnimation = "Action6";
-			ch->pAniState->activeAnimation.name = "Action6";
-			//ch->rigidBody->SetVelocity(glm::vec3(0.0f, vel.y, 0.0f));
-
-		}
-
-		if (ch->pAniState->activeAnimation.name == "Action6")
-		{
-
-		}
-		else if (axes[1] < -0.2f)
-		{
-
-			//Ray Cast
-			glm::vec3 from = ch->position + glm::vec3(0.0f, 10.0f, 0.0f);
-			glm::vec3 to = ch->getForward();
-			to *= 18.0f;
-			to = to + ch->position;
-			to.y = 8.0f;
-			if (bIsDebugMode) {
-				g_pDebugRendererACTUAL->addLine(from, to, glm::vec3(1.0f, 1.0f, 0.0f));
-			}
-
-			nPhysics::iRigidBody* hitRb = gPhysicsWorld->RayCastGetObject(from, to);
-
-			if (hitRb && hitRb->GetMass() > 3000.f)
-			{
-				glm::vec3 rbVel = hitRb->GetVelocity();
-				glm::vec3 playerVel = ch->rigidBody->GetVelocity();
-				float playerVelLength = glm::length(playerVel);
-				float RbVelLength = glm::length(rbVel);
-				if (RbVelLength > playerVelLength)
-				{
-					hitRb->SetVelocity(glm::normalize(rbVel) * playerVelLength);
-				}
-
-				velVec = CamDir * 18.0f;
-				velVec.y = vel.y;
-				ch->rigidBody->SetVelocity(velVec);
-				ch->currentAnimation = "Action3";
-			}
-			else if (axes[1] < -0.7f) {
-				velVec = CamDir * 80.0f;
-				velVec.y = vel.y;
-
-				ch->currentAnimation = "Run-forward";
-				ch->rigidBody->SetVelocity(velVec);
-
-				if (buttons[1] == GLFW_PRESS && ch->pAniState->activeAnimation.name != "Run-jump")
-				{
-					glm::vec3 vel;
-					vel = ch->rigidBody->GetVelocity();
-					vel.y = 17.0f;
-					ch->rigidBody->SetVelocity(vel);
-				}
-
-			}
-			//Casting gravity beam
-			else if (axes[4] > -0.5f)
-			{
-				velVec = CamDir * 30.0f;
-				velVec.y = vel.y;
-				ch->rigidBody->SetVelocity(velVec);
-				ch->currentAnimation = "Action1";
-
-			}
-			else {
-				velVec = CamDir * 30.0f;
-				velVec.y = vel.y;
-				ch->rigidBody->SetVelocity(velVec);
-				ch->currentAnimation = "Walk-forward";
-			}
-
-		}
-		//walk Backward
-		else if (axes[1] > 0.2f)
-		{
-			velVec = -CamDir * 18.0f;
-			velVec.y = vel.y;
-			ch->rigidBody->SetVelocity(velVec);
-			//Casting gravity beam
-			if (axes[4] > -0.5f)
-			{
-
-				ch->currentAnimation = "Action-walk-backward";
-
-			}
-			else
-			{
-				ch->currentAnimation = "Walk-backward";
-
-			}
-
-
-		}
-		//strafe
-		else if (axes[0] > 0.2f)
-		{
-			//calculate Left
-			glm::vec3 left = glm::cross(CamDir, glm::vec3(0.0f, 1.0f, 0.0f));
-
-
-
-			velVec = left * 25.0f;
-			velVec.y = vel.y;
-			ch->rigidBody->SetVelocity(velVec);
-
-			if (axes[4] > -0.5f)
-			{
-				ch->currentAnimation = "Action5";
-			}
-			else
-			{
-				ch->currentAnimation = "Strafe-right";
-			}
-
-		}
-		else if (axes[0] < -0.2f)
-		{
-			//calculate Left
-			glm::vec3 left = -glm::cross(CamDir, glm::vec3(0.0f, 1.0f, 0.0f));
-
-
-
-			velVec = left * 25.0f;
-			velVec.y = vel.y;
-			ch->rigidBody->SetVelocity(velVec);
-
-			if (axes[4] > -0.5f)
-			{
-				ch->currentAnimation = "Action4";
-			}
-			else
-			{
-				ch->currentAnimation = "Strafe-left";
-			}
-
-		}
-		else if (axes[4] > -0.5f)
-		{
-			ch->currentAnimation = "Action2";
-			ch->rigidBody->SetVelocity(glm::vec3(0.0f, vel.y, 0.0f));
-
-		}
-		else
-		{
-			ch->currentAnimation = "Idle";
-			vel = ch->rigidBody->GetVelocity();
-			ch->rigidBody->SetVelocity(glm::vec3(0.0f, vel.y, 0.0f));
-
-		}
-
-
-		if (buttons[16] == GLFW_PRESS) 
-		{ 
-
-			camera.mCameraType = THIRD_PERSON;
-			
-		}
-		if (buttons[14] == GLFW_PRESS)
-		{
-
-			camera.mCameraType = AIM;
-			
-		}
-
-
-
-		   
-		//Print some axes info 
-		//if (std::abs(axes[0]) > 0.2f ) { std::cout << "axis[0]: " << axes[0] << std::endl; }
-		//if (std::abs(axes[1]) > 0.2f) { std::cout << "axis[1]: " << axes[1] << std::endl; }
-		////right stick horizontal
-		//if (std::abs(axes[2]) > 0.2f) { std::cout << "axis[2]: " << axes[2] << std::endl; }
-		////right stick up
-		//if (std::abs(axes[5]) > 0.2f) { std::cout << "axis[5]: " << axes[5] << std::endl; }
-		//
-		////Trigers
-		//if (axes[3] > -1.0f) { std::cout << "axis[3]: " << axes[3] << std::endl; }
-		//if (axes[4] > -1.0f) { std::cout << "axis[4]: " << axes[4] << std::endl; }
-
-		//if (buttons[0] == GLFW_PRESS) { std::cout << "buttons[0]: Pressed" << std::endl; }
-		//if (buttons[1] == GLFW_PRESS) { std::cout << "buttons[1]: Pressed" << std::endl; }
-		//if (buttons[2] == GLFW_PRESS) { std::cout << "buttons[2]: Pressed" << std::endl; }
-		//if (buttons[3] == GLFW_PRESS) { std::cout << "buttons[3]: Pressed" << std::endl; }
-		//if (buttons[4] == GLFW_PRESS) { std::cout << "buttons[4]: Pressed" << std::endl; }
-		//if (buttons[5] == GLFW_PRESS) { std::cout << "buttons[5]: Pressed" << std::endl; }
-		//if (buttons[6] == GLFW_PRESS) { std::cout << "buttons[6]: Pressed" << std::endl; }
-		//if (buttons[7] == GLFW_PRESS) { std::cout << "buttons[7]: Pressed" << std::endl; }
-		//if (buttons[8] == GLFW_PRESS) { std::cout << "buttons[8]: Pressed" << std::endl; }
-		//if (buttons[9] == GLFW_PRESS) { std::cout << "buttons[9]: Pressed" << std::endl; }
-		//if (buttons[10] == GLFW_PRESS) { std::cout << "buttons[10]: Pressed" << std::endl; }
-		//if (buttons[11] == GLFW_PRESS) { std::cout << "buttons[11]: Pressed" << std::endl; }
-		//if (buttons[12] == GLFW_PRESS) { std::cout << "buttons[12]: Pressed" << std::endl; }
-		//if (buttons[13] == GLFW_PRESS) { std::cout << "buttons[13]: Pressed" << std::endl; }
-		//if (buttons[14] == GLFW_PRESS) { std::cout << "buttons[14]: Pressed" << std::endl; }
-		//if (buttons[15] == GLFW_PRESS) { std::cout << "buttons[15]: Pressed" << std::endl; }
-		//if (buttons[14] == GLFW_PRESS) { std::cout << "buttons[16]: Pressed" << std::endl; }
-		//if (buttons[15] == GLFW_PRESS) { std::cout << "buttons[17]: Pressed" << std::endl; }
-		
-	}
-
-
-	if (!bIsDebugMode && contrMode == 2) {
-
-
-		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		{
-			dropBow(ch);
-
-		}
-
-
-		if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		{
-			pickBow(ch);
-
-		}
-
-		glm::vec3 CamDir;
-		if(camera.mCameraType == THIRD_PERSON)
-		{
-			CamDir = camera.getDirectionVector();
-		}
-		else
-		{
-			CamDir = ch->getForward();
-		}
-		
-		if (IsMBLDown(window))
-		{
-
-			//Ray Cast
-			pickUP(ch);
-		}
-
-		if (ch->pAniState->activeAnimation.name == "Action6")
-		{
-
-		}
-		else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			glm::vec3 velVec;
-
-			
-			
-
-			//Ray Cast
-			glm::vec3 from = ch->position + glm::vec3(0.0f, 10.0f, 0.0f);
-			glm::vec3 to = ch->getForward();
-			to *= 18.0f;
-			to = to + ch->position;
-			to.y += 8.0f;
-			if (bIsDebugMode) {
-				g_pDebugRendererACTUAL->addLine(from, to, glm::vec3(1.0f, 1.0f, 0.0f));
-			}
-			nPhysics::iRigidBody* hitRb = gPhysicsWorld->RayCastGetObject(from, to);
-
-			if (hitRb && hitRb->GetMass() > 3000.f)
-			{
-				glm::vec3 rbVel = hitRb->GetVelocity();
-				glm::vec3 playerVel = ch->rigidBody->GetVelocity();
-				float playerVelLength = glm::length(playerVel);
-				float RbVelLength = glm::length(rbVel);
-				if (RbVelLength > playerVelLength)
-				{
-					hitRb->SetVelocity(glm::normalize(rbVel) * playerVelLength);
-				}
-
-				velVec = CamDir * 18.0f;
-				velVec.y = vel.y;
-				ch->rigidBody->SetVelocity(velVec);
-				ch->currentAnimation = "Action3";
-			}
-			else if (IsShiftDown(window)) {
-				velVec = CamDir * 80.0f;
-				velVec.y = vel.y;
-
-				ch->currentAnimation = "Run-forward";
-				ch->rigidBody->SetVelocity(velVec);
-
-
-			}
-			else if (IsMBLDown(window))
-			{
-				velVec = CamDir * 30.0f;
-				velVec.y = vel.y;
-				ch->rigidBody->SetVelocity(velVec);
-				ch->currentAnimation = "Action1";
-
-			}
-			else {
-				velVec = CamDir * 30.0f;
-				velVec.y = vel.y;
-  		    	ch->rigidBody->SetVelocity(velVec);
-				ch->currentAnimation = "Walk-forward";
-			}
-
-
-		}
-		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			glm::vec3 velVec;
-			//glm::vec3 CamDir = camera.getDirectionVector();
-			velVec = -CamDir * 30.0f;
-			velVec.y = vel.y;
-			ch->rigidBody->SetVelocity(velVec);
-
-			if (IsMBLDown(window))
-			{
-				ch->currentAnimation = "Action-walk-backward";
-			}
-			else
-			{
-				ch->currentAnimation = "Walk-backward";
-			}
-			
-
-		}
-		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
-			glm::vec3 velVec;
-			//glm::vec3 CamDir = camera.getDirectionVector();
-			//calculate Left
-			glm::vec3 right = glm::cross(CamDir, glm::vec3(0.0f, 1.0f, 0.0f));
-			velVec = right * 25.0f;
-			velVec.y = vel.y;
-			ch->rigidBody->SetVelocity(velVec);
-			if (IsMBLDown(window))
-			{
-				ch->currentAnimation = "Action5";
-			}
-			else
-			{
-				ch->currentAnimation = "Strafe-right";
-			}
-
-		}
-		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
-			glm::vec3 velVec;
-			//glm::vec3 CamDir = camera.getDirectionVector();
-			//calculate Left
-			glm::vec3 left = -glm::cross(CamDir, glm::vec3(0.0f, 1.0f, 0.0f));
-
-
-
-			velVec = left * 25.0f;
-			velVec.y = vel.y;
-			ch->rigidBody->SetVelocity(velVec);
-
-			if (IsMBLDown(window))
-			{
-				ch->currentAnimation = "Action4";
-			}
-			else
-			{
-				ch->currentAnimation = "Strafe-left";
-			}
-			
-
-
-
-		}
-		else if(IsMBLDown(window))
-		{
-			ch->currentAnimation = "Action2";
-			ch->rigidBody->SetVelocity(glm::vec3(0.0f, vel.y, 0.0f));
-
-		}
-		else if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		{
-			ch->currentAnimation = "Action6";
-			ch->rigidBody->SetVelocity(glm::vec3(0.0f, vel.y, 0.0f));
-		}
-		else
-		{
-			ch->currentAnimation = "Idle";
-			ch->rigidBody->SetVelocity(glm::vec3(0.0f, vel.y, 0.0f));
-
-		}
-
-	}
-
 
 	float cameraSpeed = CAMERA_SPEED_SLOW;
 	if ( glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS  )
@@ -1025,12 +528,10 @@ void ProcessAsynKeys(GLFWwindow* window)
 
 	camera.MovementSpeed = cameraSpeed;
 	
-	// If no keys are down, move the camera
+
 	if ( AreAllModifiersUp(window) )
 	{
-		// Note: The "== GLFW_PRESS" isn't really needed as it's actually "1" 
-		// (so the if() treats the "1" as true...)
-		if (bIsDebugMode) {
+
 			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 				camera.ProcessKeyboard(FORWARD, deltaTime);
 			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -1043,11 +544,9 @@ void ProcessAsynKeys(GLFWwindow* window)
 				camera.ProcessKeyboard(UP, deltaTime);
 			if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 				camera.ProcessKeyboard(DOWN, deltaTime);
+	}
 
-		}
-	}//if(AreAllModifiersUp(window)
 
-	//const float MIN_LIGHT_BRIGHTNESS = 0.001f;
 
 	//LIGHT CONTROL*********************************************************************************************************
 	if ( IsCtrlDown(window) )
@@ -1194,8 +693,8 @@ void ProcessAsynKeys(GLFWwindow* window)
 		if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(1.0f * deltaTime, 0.0f, 0.0f, false); }
 		if (glfwGetKey(window, GLFW_KEY_C))			{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(-1.0f * deltaTime, 0.0f, 0.0f, false); }
 
-		if (glfwGetKey(window, GLFW_KEY_V)) { vec_controlable.at(index)->nonUniformScale += cameraSpeed * deltaTime; }
-		if (glfwGetKey(window, GLFW_KEY_B)) { vec_controlable.at(index)->nonUniformScale -= cameraSpeed * deltaTime; }
+		if (glfwGetKey(window, GLFW_KEY_V)) { vec_controlable.at(index)->nonUniformScale += cameraSpeed/100 * deltaTime; }
+		if (glfwGetKey(window, GLFW_KEY_B)) { vec_controlable.at(index)->nonUniformScale -= cameraSpeed/100 * deltaTime; }
 
 
 

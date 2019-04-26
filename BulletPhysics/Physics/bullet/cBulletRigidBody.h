@@ -37,6 +37,7 @@ namespace nPhysics
 		virtual void SetVelocity(glm::vec3 velocity);
 		virtual void SettAccel(glm::vec3 accel);
 		virtual void SetCollision(bool coll);
+		virtual void SetQuatRotation(glm::quat rotation);
 
 
 		//void SettAccel(glm::vec3 accel);

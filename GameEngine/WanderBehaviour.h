@@ -6,7 +6,7 @@
 
 class WanderBehaviour : public Behaviour {
 public:
-	WanderBehaviour(cGameObject* agent, float maxSpeed, float maxForce, float timeToWait, glm::vec3 RelPos, float upLim, float dwLim, cGameObject* player);
+	WanderBehaviour(cGameObject* agent, float maxSpeed, float maxForce, float timeToWait, glm::vec3 RelPos, float upLim, float dwLim);
 	virtual ~WanderBehaviour(void);
 
 	virtual void update(float dt);
@@ -24,7 +24,6 @@ private:
 	bool mStart;
 	glm::vec3 mCurTarget;
 	glm::vec3 mRelPos;
-	cGameObject* targetPlayer;
 };
 
 #endif

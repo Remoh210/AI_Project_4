@@ -80,6 +80,25 @@ void cGameObject::setSpecularPower(float specPower)
 }
 
 
+
+glm::vec3 cGameObject::getRelPos(glm::vec3 posInModelSpace)
+{
+	glm::vec4 vec4_pos = glm::vec4(posInModelSpace, 1.0f);
+	glm::mat4 matTransform = glm::mat4(1.0f);	
+	glm::mat4 matTranslation = glm::translate(glm::mat4(1.0f),
+		this->position);
+	matTransform = matTransform * matTranslation;		
+	glm::quat qRotation = this->m_meshQOrientation;
+	glm::mat4 matQrotation = glm::mat4(qRotation);
+	matTransform = matTransform * matQrotation;
+
+	 glm::vec4 posWorldSpace = matTransform * vec4_pos;
+	 return posWorldSpace;
+
+
+
+}
+
 glm::vec3 cGameObject::getForward(glm::vec3 forwardModelSpace)
 {
 

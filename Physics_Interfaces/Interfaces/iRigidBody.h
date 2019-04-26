@@ -31,6 +31,7 @@ namespace nPhysics
 		virtual void SetPosition(glm::vec3 position) = 0;
 		virtual void SetEulerRotation(glm::vec3 rotation) = 0;
 		virtual void SetMatRotation(glm::mat4 rotation) = 0;
+		virtual void SetQuatRotation(glm::quat rotation) = 0;
 		virtual void SetMass(float mass) = 0;
 		virtual void SetVelocity(glm::vec3 velocity) = 0;
 		virtual void SettAccel(glm::vec3 accel) = 0;

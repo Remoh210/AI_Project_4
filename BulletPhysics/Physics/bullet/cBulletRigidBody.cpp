@@ -9,6 +9,8 @@
 
 namespace nPhysics {
 
+
+
 	cBulletRigidBody::cBulletRigidBody(const sRigidBodyDef& def, iShape* shape)
 		:mShape(shape)
 	{
@@ -37,8 +39,8 @@ namespace nPhysics {
 
 
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(0, 0, colShape, localInertia);
-			rbInfo.m_restitution = 0.9;
-			rbInfo.m_friction = 10.0;
+			rbInfo.m_restitution = 0.0;
+			rbInfo.m_friction = 0.0;
 			mBody = new btRigidBody(rbInfo);
 			
 			mBody->setCollisionFlags(mBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
@@ -140,8 +142,8 @@ namespace nPhysics {
 			startTransform.setRotation(nConvert::ToBullet(def.quatOrientation));
 			mMotionState = new btDefaultMotionState(startTransform);
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, mMotionState, colShape, localInertia);
-			rbInfo.m_restitution = 0.2;
-			rbInfo.m_friction = 10.2;
+			rbInfo.m_restitution = 0.0;
+			rbInfo.m_friction = 0.0;
 			mBody = new btRigidBody(rbInfo);
 			mBody->setLinearVelocity(nConvert::ToBullet(def.Velocity));
 			mBody->setAngularVelocity(nConvert::ToBullet(def.AngularVelocity));
@@ -217,11 +219,22 @@ namespace nPhysics {
 		{
 			btCollisionShape* colShape = dynamic_cast<cBulletMeshCollider*>(shape)->GetBulletShape();
 			btTransform startTransform;
+
+			btTriangleInfoMap* triangleInfoMap = new btTriangleInfoMap();
+			btGenerateInternalEdgeInfo(dynamic_cast<btBvhTriangleMeshShape*>(colShape), triangleInfoMap);
+
 			colShape->setLocalScaling(nConvert::ToBullet(def.Scale));
 			startTransform.setIdentity();
 
-			btScalar mass(0.0f);
+			mMass = def.Mass;
+			btScalar mass(mMass);
+			bool isDynamic = (mass != 0.f);
 			btVector3 localInertia(0, 0, 0);
+
+			if (isDynamic)
+			{
+				colShape->calculateLocalInertia(mass, localInertia);
+			}
 
 			startTransform.setOrigin(nConvert::ToBullet(def.Position));
 			startTransform.setRotation(nConvert::ToBullet(def.quatOrientation));
@@ -229,8 +242,8 @@ namespace nPhysics {
 
 			mMotionState = new btDefaultMotionState(startTransform);
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, mMotionState, colShape, localInertia);
-			rbInfo.m_restitution = 0.9;
-			rbInfo.m_friction = 10.2;
+			rbInfo.m_restitution = 0.0;
+			rbInfo.m_friction = 0.0;
 			mBody = new btRigidBody(rbInfo);
 			mBody->setLinearVelocity(nConvert::ToBullet(def.Velocity));
 			mBody->setAngularVelocity(nConvert::ToBullet(def.AngularVelocity));
@@ -368,7 +381,10 @@ namespace nPhysics {
 
 	void cBulletRigidBody::SetMatRotation(glm::mat4 rotation)
 	{
+		glm::quat qRot = glm::toQuat(rotation);
 		//btMotionState* state = this->mBody->getMotionState();
+		//setRotation
+		this->mBody->getWorldTransform().setRotation(nConvert::ToBullet(qRot));
 		//btTransform startTransform;
 		//state->getWorldTransform(startTransform);
 		//startTransform.getRotation().m;
@@ -390,5 +406,9 @@ namespace nPhysics {
 	void cBulletRigidBody::SetCollision(bool coll)
 	{
 		this->bHasCollided = coll;
+	}
+	void cBulletRigidBody::SetQuatRotation(glm::quat rotation)
+	{
+		this->mBody->getWorldTransform().setRotation(nConvert::ToBullet(rotation));
 	}
 }
