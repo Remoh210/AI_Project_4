@@ -393,25 +393,20 @@ int main(void) {
 
   BehaviourManager* behavManager = new BehaviourManager();
 
-  cGameObject* pPlayer = findObjectByFriendlyName("delorean");
-  //cGameObject* pWanderEnemy1 = findObjectByFriendlyName("mutant-1");
-  //cGameObject* pWanderEnemy2 = findObjectByFriendlyName("mutant-2");
-  //cGameObject* pWanderEnemy3 = findObjectByFriendlyName("mutant-3");
+  for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+  {
+	  if (vec_pObjectsToDraw[i]->rigidBody != NULL)
+	  {
+		  if (vec_pObjectsToDraw[i]->rigidBody->GetMass() > 0.0f)
+		  {
+			  //std::rand() % 100 + 50;
+			  WanderBehaviour* wander1 = new WanderBehaviour(vec_pObjectsToDraw[i], 60 /*(float)(std::rand() % 90 + 40)*/, 220.2f, 0.0f, glm::vec3(0.0f), 100.0f, -100.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
+			  behavManager->SetBehaviour(vec_pObjectsToDraw[i], wander1);
+		  }
+	  }
+  }
 
 
-  ////pApproachEnemy->initPos = pApproachEnemy->position;
-  ////pWanderEnemy->initPos = pWanderEnemy->position;
-  ////pPursueEnemy->initPos = pPursueEnemy->position;
-  ////pSeekEnemy->initPos = pSeekEnemy->position;
-
-  ////Initialize Behaviours
-
-  WanderBehaviour* wander1 = new WanderBehaviour(pPlayer, 50.2f, 200.2f, 0.0f, glm::vec3(0.0f), 100.0f, -100.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-  //WanderBehaviour* wander2 = new WanderBehaviour(pWanderEnemy2, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-  //WanderBehaviour* wander3 = new WanderBehaviour(pWanderEnemy3, 20.2f, 400.2f, 4.0f, glm::vec3(0.0f), 100.0f, -100.0f, pPlayer); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-  behavManager->SetBehaviour(pPlayer, wander1);
-  //behavManager->SetBehaviour(pWanderEnemy2, wander2);
-  //behavManager->SetBehaviour(pWanderEnemy3, wander3);
 
 
 
@@ -757,8 +752,8 @@ int main(void) {
 
         } else {
           curMesh->position = curMesh->rigidBody->GetPosition();
-          //curMesh->m_meshQOrientation =
-            //  glm::mat4(curMesh->rigidBody->GetMatRotation());
+          curMesh->m_meshQOrientation =
+              glm::mat4(curMesh->rigidBody->GetMatRotation());
         }
       }
     }

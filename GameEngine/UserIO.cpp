@@ -516,7 +516,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 
 
 
-	const float CAMERA_SPEED_SLOW = 30.0f;
+	const float CAMERA_SPEED_SLOW = 100.0f;
 	const float CAMERA_SPEED_FAST = 300.0f;
 
 
