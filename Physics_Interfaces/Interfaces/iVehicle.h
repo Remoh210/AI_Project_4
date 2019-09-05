@@ -9,9 +9,14 @@ namespace nPhysics
 	public:
 		virtual ~iVehicle() {}
 		virtual void SetSteering(float value) = 0;
+		virtual void AddWheel() = 0;
 		virtual void SetBrakes(float value) = 0;
 		virtual void AddEngineForce(float value) = 0;
 		virtual void GetChassisTransform(glm::mat4& transformOut) = 0;
+		virtual glm::quat GetChassisRotation() = 0;
+		virtual glm::vec3 GetChassisPositon() = 0;
+		virtual glm::quat GetWheelRotation(int index) = 0;
+		virtual glm::vec3 GetWheelPosition(int index) = 0;
 		virtual void GetWheelTransform(size_t index, glm::mat4& transformOut) = 0;
 	protected:
 		iVehicle() {}

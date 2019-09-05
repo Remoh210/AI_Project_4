@@ -970,7 +970,10 @@ bool cSceneManager::loadScene(std::string filename) {
 				gPhysicsWorld->AddBody(rigidBody);
 
 				nPhysics::iVehicle* vehicle = gPhysicsFactory->CreateVehicle(rigidBody, gPhysicsWorld);
+
+				vehicle->AddWheel();
 				gPhysicsWorld->AddVehicle(vehicle);
+				
 				CurModel->Vehicle = vehicle;
 			}
 

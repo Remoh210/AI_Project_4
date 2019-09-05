@@ -400,8 +400,8 @@ int main(void) {
 		  if (vec_pObjectsToDraw[i]->rigidBody->GetMass() > 0.0f)
 		  {
 			  //std::rand() % 100 + 50;
-			  WanderBehaviour* wander1 = new WanderBehaviour(vec_pObjectsToDraw[i], 60 /*(float)(std::rand() % 90 + 40)*/, 220.2f, 0.0f, glm::vec3(0.0f), 100.0f, -100.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-			  behavManager->SetBehaviour(vec_pObjectsToDraw[i], wander1);
+			  //WanderBehaviour* wander1 = new WanderBehaviour(vec_pObjectsToDraw[i], 60 /*(float)(std::rand() % 90 + 40)*/, 220.2f, 0.0f, glm::vec3(0.0f), 100.0f, -100.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
+			  //behavManager->SetBehaviour(vec_pObjectsToDraw[i], wander1);
 		  }
 	  }
   }
@@ -739,22 +739,59 @@ int main(void) {
 
       if (curMesh->rigidBody != NULL &&
           curMesh->rigidBody->GetMass() !=
-              0.0f) {
+              0.0f) 
+	  {
+			if (curMesh->Vehicle != NULL)
+			{
+				//curMesh->Vehicle->AddEngineForce(300.0f);
+				//curMesh->Vehicle->
+				glm::mat4 mtiden(1.f);
+				cGameObject* dbg = findObjectByFriendlyName("brick_wall0");
+				dbg->setUniformScale(0.2);
+				dbg->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
+				dbg->bDontLight = true;
+				dbg->position = curMesh->Vehicle->GetWheelPosition(0);
 
-        if (curMesh->rigidBody->GetShape()->GetShapeType() ==
-            nPhysics::SHAPE_TYPE_CAPSULE) {
-          float Totalheight;
-          Totalheight =
-              curMesh->rigidBody->GetShape()->GetCapsuleRadius() + 3.8f;
-          curMesh->position = curMesh->rigidBody->GetPosition();
-          curMesh->position.y =
-              curMesh->rigidBody->GetPosition().y - Totalheight;
+				cGameObject* dbg1 = findObjectByFriendlyName("brick_wall1");
+				dbg1->setUniformScale(0.2);
+				dbg1->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
+				dbg1->bDontLight = true;
+				dbg1->position = curMesh->Vehicle->GetWheelPosition(1);
 
-        } else {
-          curMesh->position = curMesh->rigidBody->GetPosition();
-          curMesh->m_meshQOrientation =
-              glm::mat4(curMesh->rigidBody->GetMatRotation());
-        }
+				cGameObject* dbg2 = findObjectByFriendlyName("brick_wall2");
+				dbg2->setUniformScale(0.2);
+				dbg2->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
+				dbg2->bDontLight = true;
+				dbg2->position = curMesh->Vehicle->GetWheelPosition(2);
+
+				cGameObject* dbg3 = findObjectByFriendlyName("brick_wall3");
+				dbg3->setUniformScale(0.2);
+				dbg3->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
+				dbg3->bDontLight = true;
+				dbg3->position = curMesh->Vehicle->GetWheelPosition(3);
+
+
+				curMesh->m_meshQOrientation = curMesh->Vehicle->GetChassisRotation();
+				curMesh->position = curMesh->Vehicle->GetChassisPositon();
+				g_simpleDubugRenderer->drawSphere(glm::vec3(0.f), 80);
+			}
+
+			else if (curMesh->rigidBody->GetShape()->GetShapeType() ==
+			    nPhysics::SHAPE_TYPE_CAPSULE) 
+			{
+			  float Totalheight;
+			  Totalheight =
+			      curMesh->rigidBody->GetShape()->GetCapsuleRadius() + 3.8f;
+			  curMesh->position = curMesh->rigidBody->GetPosition();
+			  curMesh->position.y =
+			      curMesh->rigidBody->GetPosition().y - Totalheight;
+
+			} 
+			else {
+			  curMesh->position = curMesh->rigidBody->GetPosition();
+			  curMesh->m_meshQOrientation =
+			      glm::mat4(curMesh->rigidBody->GetMatRotation());
+			}
       }
     }
 	

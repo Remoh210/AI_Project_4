@@ -53,7 +53,7 @@ namespace nPhysics
 	{
 		cBulletVehicle* vehicle = new cBulletVehicle(chassis);
 		vehicle->SetUpWorld(world);
-		return new cBulletVehicle(chassis);
+		return vehicle;
 
 	}
 

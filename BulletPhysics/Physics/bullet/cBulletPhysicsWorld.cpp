@@ -124,12 +124,12 @@ bool nPhysics::cBulletPhysicsWorld::RemoveBody(iRigidBody * body)
 
 bool nPhysics::cBulletPhysicsWorld::AddVehicle(iVehicle * vehicle)
 {
-	//cBulletVehicle* bulletVehicle = dynamic_cast<cBulletVehicle*>(vehicle);
-	//if (!bulletVehicle)
-	//{
-	//	return false;
-	//}
-	//this->mDynamicsWorld->addVehicle(bulletVehicle->GetBulletVehicle());
+	cBulletVehicle* bulletVehicle = dynamic_cast<cBulletVehicle*>(vehicle);
+	if (!bulletVehicle)
+	{
+		return false;
+	}
+	this->mDynamicsWorld->addVehicle(bulletVehicle->GetBulletVehicle());
 	return true;
 }
 

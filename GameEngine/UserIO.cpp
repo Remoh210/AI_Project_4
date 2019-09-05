@@ -678,46 +678,32 @@ void ProcessAsynKeys(GLFWwindow* window)
 	if ( IsAltDown(window) )
 	{	//Object Postiton
 
-		if ( glfwGetKey( window, GLFW_KEY_W	) )	{ vec_controlable.at(index)->position.z -= cameraSpeed * deltaTime; }
-		if ( glfwGetKey( window, GLFW_KEY_S ) )	{ vec_controlable.at(index)->position.z += cameraSpeed * deltaTime; }
-		if ( glfwGetKey( window, GLFW_KEY_A ) )	{ vec_controlable.at(index)->position.x -= cameraSpeed * deltaTime; }
-		if ( glfwGetKey( window, GLFW_KEY_D ) ) { vec_controlable.at(index)->position.x += cameraSpeed * deltaTime; }
-		if ( glfwGetKey( window, GLFW_KEY_Q ) )	{ vec_controlable.at(index)->position.y -= cameraSpeed * deltaTime; }
-		if ( glfwGetKey( window, GLFW_KEY_E ) )	{ vec_controlable.at(index)->position.y += cameraSpeed * deltaTime; }
+		//if ( glfwGetKey( window, GLFW_KEY_W	) )	{ vec_controlable.at(index)->position.z -= cameraSpeed * deltaTime; }
+		//if ( glfwGetKey( window, GLFW_KEY_S ) )	{ vec_controlable.at(index)->position.z += cameraSpeed * deltaTime; }
+		//if ( glfwGetKey( window, GLFW_KEY_A ) )	{ vec_controlable.at(index)->position.x -= cameraSpeed * deltaTime; }
+		//if ( glfwGetKey( window, GLFW_KEY_D ) ) { vec_controlable.at(index)->position.x += cameraSpeed * deltaTime; }
+		//if ( glfwGetKey( window, GLFW_KEY_Q ) )	{ vec_controlable.at(index)->position.y -= cameraSpeed * deltaTime; }
+		//if ( glfwGetKey( window, GLFW_KEY_E ) )	{ vec_controlable.at(index)->position.y += cameraSpeed * deltaTime; }
 
-		////Object Rotation
-		if (glfwGetKey(window, GLFW_KEY_RIGHT))		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, 1.0f * deltaTime, 0.0f, false); }
-		if (glfwGetKey(window, GLFW_KEY_LEFT))		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, -1.0f * deltaTime, 0.0f, false);}
-		if ( glfwGetKey( window, GLFW_KEY_UP ) )	{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.0f, 1.0f * deltaTime, false); }
-		if (glfwGetKey(window, GLFW_KEY_DOWN))		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.0f, -1.0f * deltaTime, false); }
-		if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(1.0f * deltaTime, 0.0f, 0.0f, false); }
-		if (glfwGetKey(window, GLFW_KEY_C))			{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(-1.0f * deltaTime, 0.0f, 0.0f, false); }
+		//////Object Rotation
+		//if (glfwGetKey(window, GLFW_KEY_RIGHT))		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, 1.0f * deltaTime, 0.0f, false); }
+		//if (glfwGetKey(window, GLFW_KEY_LEFT))		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, -1.0f * deltaTime, 0.0f, false);}
+		//if ( glfwGetKey( window, GLFW_KEY_UP ) )	{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.0f, 1.0f * deltaTime, false); }
+		//if (glfwGetKey(window, GLFW_KEY_DOWN))		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.0f, -1.0f * deltaTime, false); }
+		//if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(1.0f * deltaTime, 0.0f, 0.0f, false); }
+		//if (glfwGetKey(window, GLFW_KEY_C))			{ vec_controlable.at(index)->adjMeshOrientationEulerAngles(-1.0f * deltaTime, 0.0f, 0.0f, false); }
 
-		if (glfwGetKey(window, GLFW_KEY_V)) { vec_controlable.at(index)->nonUniformScale += cameraSpeed/100 * deltaTime; }
-		if (glfwGetKey(window, GLFW_KEY_B)) { vec_controlable.at(index)->nonUniformScale -= cameraSpeed/100 * deltaTime; }
+		//if (glfwGetKey(window, GLFW_KEY_V)) { vec_controlable.at(index)->nonUniformScale += cameraSpeed/100 * deltaTime; }
+		//if (glfwGetKey(window, GLFW_KEY_B)) { vec_controlable.at(index)->nonUniformScale -= cameraSpeed/100 * deltaTime; }
 
-
-
-		/*if (glfwGetKey(window, GLFW_KEY_UP))
-		{
-			if (vec_controlable.at(index)->vecTextures.size() > 1)
-			{
-				vec_controlable.at(index)->vecTextures.at(1).strength += 0.002f;
-				vec_controlable.at(index)->vecTextures.at(0).strength -= 0.002f;
-			}
-			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has only one texture" << std::endl; }
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN))
-		{
-			if (vec_controlable.at(index)->vecTextures.size() > 1)
-			{
-				vec_controlable.at(index)->vecTextures.at(1).strength -= 0.002f;
-				vec_controlable.at(index)->vecTextures.at(0).strength += 0.002f;
-			}
-			else { std::cout << vec_controlable.at(index)->friendlyName << " has only one texture" << std::endl; }
-		}*/
-
-		
+		cGameObject* GO = findObjectByFriendlyName("delorean1");
+		if (glfwGetKey(window, GLFW_KEY_W)) { GO->Vehicle->AddEngineForce(400.f); }
+		else if (glfwGetKey(window, GLFW_KEY_S)) { GO->Vehicle->AddEngineForce(-400.f); }
+		else if (glfwGetKey(window, GLFW_KEY_A)) { GO->Vehicle->SetSteering(-0.5f); }
+		else if (glfwGetKey(window, GLFW_KEY_D)) { GO->Vehicle->SetSteering(0.5f); }
+		else { GO->Vehicle->AddEngineForce(0.f); }
+		//if (glfwGetKey(window, GLFW_KEY_Q)) { vec_controlable.at(index)->position.y -= cameraSpeed * deltaTime; }
+		//if (glfwGetKey(window, GLFW_KEY_E)) { vec_controlable.at(index)->position.y += cameraSpeed * deltaTime; }
 
 	}
 	
