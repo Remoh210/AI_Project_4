@@ -46,7 +46,7 @@ cGameObject::cGameObject()
 	this->shapeType = cGameObject::UNKOWN_SHAPE;
 	this->rigidBody = NULL;
 	this->softBody = NULL;
-
+	this->Vehicle = NULL;
 
 
 	this->pSimpleSkinnedMesh = NULL;

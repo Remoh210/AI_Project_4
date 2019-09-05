@@ -23,7 +23,7 @@
     <ProjectGuid>{F63D2F6C-8CBF-47DF-A2AE-BD1354C271AC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ILoveOpenGL</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>GameEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

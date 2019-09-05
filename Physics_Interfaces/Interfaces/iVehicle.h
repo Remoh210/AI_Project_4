@@ -1,16 +1,20 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "iCollisionBody.h"
+#include "iRigidBody.h"
+
 namespace nPhysics
 {
-	class iVehicle : public iCollisonBody
+	class iVehicle
 	{
 	public:
 		virtual ~iVehicle() {}
-		virtual void SetSteering(float steeringValue) = 0;
-		virtual void SetBrakes(float brakesValue) = 0;
-		virtual void MakeEngineGoNow(float howMuch) = 0;
+		virtual void SetSteering(float value) = 0;
+		virtual void SetBrakes(float value) = 0;
+		virtual void AddEngineForce(float value) = 0;
 		virtual void GetChassisTransform(glm::mat4& transformOut) = 0;
 		virtual void GetWheelTransform(size_t index, glm::mat4& transformOut) = 0;
+	protected:
+		iVehicle() {}
+		iVehicle(iRigidBody* chassis) {}
 	};
 }

@@ -1,5 +1,6 @@
 #include "cBulletPhysicsFactory.h"
 #include "cBulletRigidBody.h"
+#include "cBulletVehicle.h"
 #include "bullet_shapes.h"
 #include "cBulletPhysicsWorld.h"
 #include <nConvert.h>
@@ -46,6 +47,14 @@ namespace nPhysics
 	iMeshCollider * cBulletPhysicsFactory::CreateMeshCollider(const GL_Triangle* triangles, size_t numOfTriangles)
 	{
 		return new cBulletMeshCollider(triangles, numOfTriangles);
+	}
+
+	iVehicle * cBulletPhysicsFactory::CreateVehicle(iRigidBody * chassis, iPhysicsWorld* world)
+	{
+		cBulletVehicle* vehicle = new cBulletVehicle(chassis);
+		vehicle->SetUpWorld(world);
+		return new cBulletVehicle(chassis);
+
 	}
 
 	iConstraint * cBulletPhysicsFactory::CreatHingeConstraint(iRigidBody * rb, const glm::vec3 & pivot, const glm::vec3 & axis)

@@ -10,6 +10,7 @@
 #include "iConstraint.h"
 #include "GL_Vertex.h"
 #include "GL_Triangle.h"
+#include "iVehicle.h"
 
 
 namespace nPhysics
@@ -27,6 +28,7 @@ namespace nPhysics
 		virtual iBoxShape* CreateBoxShape(const glm::vec3& halfExtents) = 0;
 		virtual iMeshCollider* CreateMeshCollider(const GL_Triangle* triangles, size_t numOfTriangles) = 0;
 
+		virtual iVehicle* CreateVehicle(iRigidBody * chassis, iPhysicsWorld* world) = 0;
 		virtual iConstraint* CreatHingeConstraint(iRigidBody* rb, const glm::vec3& pivot, const glm::vec3& axis) = 0;
 		virtual iConstraint* CreatHingeConstraint(iRigidBody* rbA, iRigidBody* rbB, const glm::vec3& pivotInA, const glm::vec3& pivotInB, const glm::vec3& axisInA, const glm::vec3& axisInB) = 0;
 		virtual iConstraint* CreatePointToPointConstraint(iRigidBody* rb, const glm::vec3& pivot) = 0;

@@ -34,12 +34,12 @@ namespace nPhysics {
 			transformIn.getOpenGLMatrix(&mat[0][0]);
 			return mat;
 		}
-		inline void ToSimple(const btTransform& transform, glm::mat4 matOut)
-		{
+		//inline void ToSimple(const btTransform& transform, glm::mat4 matOut)
+		//{
 
-			transform.getOpenGLMatrix(&matOut[0][0]);
+		//	transform.getOpenGLMatrix(&matOut[0][0]);
 
-		}
+		//}
 
 
 

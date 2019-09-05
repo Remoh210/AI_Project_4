@@ -870,6 +870,9 @@
     <ClInclude Include="Physics\bullet\cBulletConstraints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\bullet\cBulletVehicle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Physics\bullet\Bullet3Common\b3AlignedAllocator.cpp">
@@ -1389,6 +1392,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Physics\bullet\cBulletConstraints.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\bullet\cBulletVehicle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

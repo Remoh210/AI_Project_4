@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D62DA76F-9D9F-40B5-A183-E25D886DFF18}</ProjectGuid>
     <RootNamespace>PhysicsInterfaces</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -146,6 +146,7 @@
     <ClInclude Include="Interfaces\iSoftBody.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Interfaces\iPhysicsFactory.cpp" />
     <ClCompile Include="Interfaces\iPhysicsWorld.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

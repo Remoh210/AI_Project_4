@@ -22,7 +22,7 @@ namespace nPhysics
 
 		virtual iMeshCollider* CreateMeshCollider(const GL_Triangle * triangles, size_t numOfTriangles);
 
-		//Contraints
+		virtual iVehicle* CreateVehicle(iRigidBody * chassis, iPhysicsWorld* world);
 		virtual iConstraint* CreatHingeConstraint(iRigidBody* rb, const glm::vec3& pivot, const glm::vec3& axis);
 		virtual iConstraint* CreatHingeConstraint(iRigidBody* rbA, iRigidBody* rbB, const glm::vec3& pivotInA, const glm::vec3& pivotInB, 
 			const glm::vec3& axisInA, const glm::vec3& axisInB);

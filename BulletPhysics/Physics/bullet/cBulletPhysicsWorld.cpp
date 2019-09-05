@@ -2,6 +2,7 @@
 #include "nConvert.h"
 #include "cBulletRigidBody.h"
 #include "cBulletConstraints.h"
+#include "cBulletVehicle.h"
 #include "BulletCollision/CollisionDispatch/btInternalEdgeUtility.h"
 
 
@@ -103,24 +104,6 @@ bool nPhysics::cBulletPhysicsWorld::AddBody(iRigidBody* body)
 	}
 	mDynamicsWorld->addRigidBody(bulletRigidBody->GetBulletBody());
 
-	////else if type is BODY_TYPE_COMPOUND
-	//{
-	//	cBulletCompoundBody* bulletCompoundBody = dynamic_cast<cBulletCompoundBody*>(body);
-	//	bulletCompoundBody->AddToWorld(mDynamicsWorld);
-	//	size_t numRigidBodies = bulletCompoundBody->GetNumRigidBodies();
-	//	size_t numConstrains = bulletCompoundBody->GetNumConstrains();
-	//	for (size_t i = 0; i < numRigidBodies; i++)
-	//	{
-	//		cBulletRigidBody* rb = bulletCompoundBody->GetRigidBody(c);
-	//		mDynamicsWorld->addRigidBody(rb);
-	//	}
-	//	for (size_t i = 0; i < numConstrains; i++)
-	//	{
-	//		btTypedConstraint* constraint = bulletCompoundBody->GetConstraint(c);
-	//		mDynamicsWorld->addConstraint(constraint);
-	//	}
-	//	mCompoundBodies.pushback(bulletCompoundBody);
-	//}
 
 	return true;
 
@@ -137,6 +120,17 @@ bool nPhysics::cBulletPhysicsWorld::RemoveBody(iRigidBody * body)
 	mDynamicsWorld->removeRigidBody(BulletBtBody);
 	return true;
 
+}
+
+bool nPhysics::cBulletPhysicsWorld::AddVehicle(iVehicle * vehicle)
+{
+	//cBulletVehicle* bulletVehicle = dynamic_cast<cBulletVehicle*>(vehicle);
+	//if (!bulletVehicle)
+	//{
+	//	return false;
+	//}
+	//this->mDynamicsWorld->addVehicle(bulletVehicle->GetBulletVehicle());
+	return true;
 }
 
 void nPhysics::cBulletPhysicsWorld::AddConstraint(iConstraint * constraint)
@@ -202,4 +196,9 @@ void nPhysics::cBulletPhysicsWorld::Update(float dt)
 	//not working with 120hz monitor?
 	mDynamicsWorld->stepSimulation(dt, 10);
 	//mDynamicsWorld->stepSimulation(dt, 0);
+}
+
+btDiscreteDynamicsWorld * nPhysics::cBulletPhysicsWorld::GetBulletWorld()
+{
+	return mDynamicsWorld;
 }

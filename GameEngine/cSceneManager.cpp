@@ -933,6 +933,47 @@ bool cSceneManager::loadScene(std::string filename) {
 
 			}
 
+			if (type == "VEHICLE")
+			{
+				nPhysics::iShape* CurShape = NULL;
+				nPhysics::sRigidBodyDef def;
+				def.Scale = glm::vec3(CurModel->nonUniformScale.x, CurModel->nonUniformScale.y, CurModel->nonUniformScale.x);
+				//in Radians
+				def.Position = CurModel->position;
+				def.Mass = GameObject[i]["RigidBody"]["Mass"].GetFloat();
+				def.GameObjectName = CurModel->friendlyName;
+				def.quatOrientation = CurModel->m_meshQOrientation;
+
+				glm::vec3 halfExtents;
+				if (GameObject[i]["RigidBody"].HasMember("HalfExtents"))
+				{
+					CurModel->bExtentsFromMesh = false;
+					const rapidjson::Value& ExtentsArray = GameObject[i]["RigidBody"]["HalfExtents"];
+					for (int i = 0; i < 3; i++)
+					{
+						halfExtents[i] = ExtentsArray[i].GetFloat();
+					}
+					halfExtents.x * CurModel->nonUniformScale.x;
+					halfExtents.y * CurModel->nonUniformScale.y;
+					halfExtents.z * CurModel->nonUniformScale.z;
+				}
+				else
+				{
+					halfExtents = glm::vec3(curModelInfo.maxX * CurModel->nonUniformScale.x, curModelInfo.maxY * CurModel->nonUniformScale.y,
+						curModelInfo.maxZ * CurModel->nonUniformScale.z);
+
+				}
+				CurShape = gPhysicsFactory->CreateBoxShape(halfExtents);
+
+				nPhysics::iRigidBody* rigidBody = gPhysicsFactory->CreateRigidBody(def, CurShape);
+				CurModel->rigidBody = rigidBody;
+				gPhysicsWorld->AddBody(rigidBody);
+
+				nPhysics::iVehicle* vehicle = gPhysicsFactory->CreateVehicle(rigidBody, gPhysicsWorld);
+				gPhysicsWorld->AddVehicle(vehicle);
+				CurModel->Vehicle = vehicle;
+			}
+
 			else if (type == "PLANE")
 			{
 				

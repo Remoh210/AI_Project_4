@@ -10,7 +10,7 @@ namespace nPhysics
 		virtual ~iCollisonBody(){}
 		virtual void GetAABB(glm::vec3& minOut, glm::vec3& maxOut) = 0;
 
-		inline eBodyType GetShapeType() const { return mBodyType };
+		inline eBodyType GetShapeType() const { return mBodyType; };
 
 	protected:
 		iCollisonBody(eBodyType bodyType) : mBodyType(bodyType) {}

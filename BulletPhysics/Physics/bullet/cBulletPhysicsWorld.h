@@ -18,6 +18,7 @@ namespace nPhysics {
 		bool RemoveBody(iRigidBody* body);
 
 		//Constraints
+		virtual bool AddVehicle(iVehicle* vehicle);
 		virtual void AddConstraint(iConstraint* constraint);
 		virtual void RemoveConstraint(iConstraint* constraint);
 		virtual std::pair<std::string, std::string> GetLastColPair();
@@ -25,6 +26,7 @@ namespace nPhysics {
 		virtual iRigidBody* RayCastGetObject(glm::vec3& from, glm::vec3& to);
 		void Update(float dt);
 
+		btDiscreteDynamicsWorld* GetBulletWorld();
 	protected:
 		cBulletPhysicsWorld(const cBulletPhysicsWorld& other) {}
 		cBulletPhysicsWorld& operator=(const cBulletPhysicsWorld& other) { return *this; }

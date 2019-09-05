@@ -9,6 +9,7 @@
 #include <vector>
 #include <Interfaces/iRigidBody.h>
 #include <Interfaces/iSoftBody.h>
+#include <Interfaces/iVehicle.h>
 
 #include "DebugRenderer/iDebugRenderer.h"
 #include "cAnimationController.h"
@@ -155,6 +156,7 @@ public:
 	bool bIsUpdatedByPhysics;	// Phsyics "owns" the position	
 
 	nPhysics::iRigidBody* rigidBody;
+	nPhysics::iVehicle* Vehicle;
 	float mass;
 	float inverseMass;
 	
