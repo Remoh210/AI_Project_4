@@ -971,7 +971,19 @@ bool cSceneManager::loadScene(std::string filename) {
 
 				nPhysics::iVehicle* vehicle = gPhysicsFactory->CreateVehicle(rigidBody, gPhysicsWorld);
 
-				vehicle->AddWheel();
+				nPhysics::sWheelInfo wheelInfo;
+
+
+				if (GameObject[i]["RigidBody"].HasMember("WheelHE"))
+				{
+					const rapidjson::Value& ExtentsArray = GameObject[i]["RigidBody"]["WheelHE"];
+					for (int i = 0; i < 3; i++)
+					{
+						wheelInfo.halfExtents[i] = ExtentsArray[i].GetFloat();
+					}
+				}
+				wheelInfo.radius = halfExtents[1] * 2;
+				vehicle->AddWheel(wheelInfo);
 				gPhysicsWorld->AddVehicle(vehicle);
 				
 				CurModel->Vehicle = vehicle;

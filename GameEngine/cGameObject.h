@@ -105,7 +105,7 @@ public:
 	glm::vec3 nonUniformScale;
 	glm::mat4 matTransform;
 	std::string meshName;	// Model to draw
-
+	glm::vec3 halfExtent;
 	
 	bool bIsWireFrame;	//  = true;  C++
 	bool bIsVisible;
@@ -150,6 +150,7 @@ public:
 	// Things that are updated by physics
 	glm::vec3 position;
 	glm::vec3 InitPosition;
+	glm::quat InitRotaion;
 	glm::vec3 velocity;
 	glm::vec3 accel;		// acceleration
 

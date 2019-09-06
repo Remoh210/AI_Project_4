@@ -374,6 +374,7 @@ int main(void) {
 	  cGameObject* go = vec_pObjectsToDraw[i];
 
 	  go->InitPosition = go->position;
+	  go->InitRotaion = go->m_meshQOrientation;
 
 	  if (go->bSave)
 	  {
@@ -588,7 +589,8 @@ int main(void) {
           strhited = "Ray Hit: " + bodyHit->GetGOName();
         else
           strhited = "Ray Hit: Nothing";*/
-		std::string artCount = "Artifacts found : " + std::to_string(gameCounter) + " out of 3";
+		
+		std::string artCount = "Speed : " + std::to_string(findObjectByFriendlyName("delorean1")->Vehicle->GetSpeed()/10) + " km/h";
         //g_textRenderer->drawText(screen_quad.width, screen_quad.height, strhited.c_str(), 100.0f);
 		g_textRenderer->drawText(screen_quad.width, screen_quad.height, artCount.c_str(), 150.0f);
 		if (gameCounter > 3) {
@@ -746,34 +748,38 @@ int main(void) {
 				//curMesh->Vehicle->AddEngineForce(300.0f);
 				//curMesh->Vehicle->
 				glm::mat4 mtiden(1.f);
-				cGameObject* dbg = findObjectByFriendlyName("brick_wall0");
-				dbg->setUniformScale(0.2);
+				cGameObject* dbg = findObjectByFriendlyName("wheel0");
+				//dbg->setUniformScale(0.2);
 				dbg->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
-				dbg->bDontLight = true;
 				dbg->position = curMesh->Vehicle->GetWheelPosition(0);
+				dbg->m_meshQOrientation = curMesh->Vehicle->GetWheelRotation(0);
+				//dbg->setMeshOrientationEulerAngles(curMesh->Vehicle->GetWheelRotationEuler(0));
 
-				cGameObject* dbg1 = findObjectByFriendlyName("brick_wall1");
-				dbg1->setUniformScale(0.2);
+				cGameObject* dbg1 = findObjectByFriendlyName("wheel1");
+				//dbg1->setUniformScale(0.2);
 				dbg1->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
-				dbg1->bDontLight = true;
 				dbg1->position = curMesh->Vehicle->GetWheelPosition(1);
+				dbg1->m_meshQOrientation = curMesh->Vehicle->GetWheelRotation(1);
+				//dbg1->setMeshOrientationEulerAngles(curMesh->Vehicle->GetWheelRotationEuler(0));
 
-				cGameObject* dbg2 = findObjectByFriendlyName("brick_wall2");
-				dbg2->setUniformScale(0.2);
+				cGameObject* dbg2 = findObjectByFriendlyName("wheel2");
+				//dbg2->setUniformScale(0.2);
 				dbg2->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
-				dbg2->bDontLight = true;
 				dbg2->position = curMesh->Vehicle->GetWheelPosition(2);
+				dbg2->m_meshQOrientation = curMesh->Vehicle->GetWheelRotation(2);
+				//dbg2->setMeshOrientationEulerAngles(curMesh->Vehicle->GetWheelRotationEuler(0));
 
-				cGameObject* dbg3 = findObjectByFriendlyName("brick_wall3");
-				dbg3->setUniformScale(0.2);
+				cGameObject* dbg3 = findObjectByFriendlyName("wheel3");
+				//dbg3->setUniformScale(0.2);
 				dbg3->setDiffuseColour(glm::vec3(0.6f, 0.f, 0.f));
-				dbg3->bDontLight = true;
 				dbg3->position = curMesh->Vehicle->GetWheelPosition(3);
+				dbg3->m_meshQOrientation = curMesh->Vehicle->GetWheelRotation(3);
+				//dbg3->setMeshOrientationEulerAngles(curMesh->Vehicle->GetWheelRotationEuler(0));
 
 
 				curMesh->m_meshQOrientation = curMesh->Vehicle->GetChassisRotation();
 				curMesh->position = curMesh->Vehicle->GetChassisPositon();
-				g_simpleDubugRenderer->drawSphere(glm::vec3(0.f), 80);
+				//g_simpleDubugRenderer->drawSphere(glm::vec3(0.f), 80);
 			}
 
 			else if (curMesh->rigidBody->GetShape()->GetShapeType() ==

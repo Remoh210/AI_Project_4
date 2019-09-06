@@ -260,18 +260,18 @@ void key_callback( GLFWwindow* window,
 	//}
 
 
-	if (glfwGetKey(window, GLFW_KEY_R))
-	{
-
-		vec_controlable[index]->nonUniformScale *= 1.2;
-
-	}
-	if (glfwGetKey(window, GLFW_KEY_Y))
-	{
-
-		vec_controlable[index]->nonUniformScale /= 1.2;
-
-	}
+	//if (glfwGetKey(window, GLFW_KEY_R))
+	//{
+	//
+	//	vec_controlable[index]->nonUniformScale *= 1.2;
+	//
+	//}
+	//if (glfwGetKey(window, GLFW_KEY_Y))
+	//{
+	//
+	//	vec_controlable[index]->nonUniformScale /= 1.2;
+	//
+	//}
 	if (key == GLFW_KEY_T && action == GLFW_PRESS)
 	{
 		if(vec_controlable[index]->vecTextures.size() > 1)
@@ -513,7 +513,7 @@ bool AreAllModifiersUp(GLFWwindow* window)
 void ProcessAsynKeys(GLFWwindow* window)
 {
 
-
+	cGameObject* GO = findObjectByFriendlyName("delorean1");
 
 
 	const float CAMERA_SPEED_SLOW = 100.0f;
@@ -531,6 +531,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 
 	if ( AreAllModifiersUp(window) )
 	{
+
 
 			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 				camera.ProcessKeyboard(FORWARD, deltaTime);
@@ -696,15 +697,33 @@ void ProcessAsynKeys(GLFWwindow* window)
 		//if (glfwGetKey(window, GLFW_KEY_V)) { vec_controlable.at(index)->nonUniformScale += cameraSpeed/100 * deltaTime; }
 		//if (glfwGetKey(window, GLFW_KEY_B)) { vec_controlable.at(index)->nonUniformScale -= cameraSpeed/100 * deltaTime; }
 
-		cGameObject* GO = findObjectByFriendlyName("delorean1");
-		if (glfwGetKey(window, GLFW_KEY_W)) { GO->Vehicle->AddEngineForce(400.f); }
-		else if (glfwGetKey(window, GLFW_KEY_S)) { GO->Vehicle->AddEngineForce(-400.f); }
-		else if (glfwGetKey(window, GLFW_KEY_A)) { GO->Vehicle->SetSteering(-0.5f); }
-		else if (glfwGetKey(window, GLFW_KEY_D)) { GO->Vehicle->SetSteering(0.5f); }
-		else { GO->Vehicle->AddEngineForce(0.f); }
+		
+		if (glfwGetKey(window, GLFW_KEY_W)) { GO->Vehicle->AddEngineForce(600.f); }
+		else if (glfwGetKey(window, GLFW_KEY_S)) { GO->Vehicle->AddEngineForce(-600.f); }
+		else
+		{
+			GO->Vehicle->AddEngineForce(0.f);
+
+		}
+		if (glfwGetKey(window, GLFW_KEY_A)) { GO->Vehicle->SetSteering(0.2f); }
+		else if (glfwGetKey(window, GLFW_KEY_D)) { GO->Vehicle->SetSteering(-0.2f); }
+		else
+		{
+			GO->Vehicle->SetSteering(0.0f);
+		}
 		//if (glfwGetKey(window, GLFW_KEY_Q)) { vec_controlable.at(index)->position.y -= cameraSpeed * deltaTime; }
 		//if (glfwGetKey(window, GLFW_KEY_E)) { vec_controlable.at(index)->position.y += cameraSpeed * deltaTime; }
+		if (glfwGetKey(window, GLFW_KEY_F)) 
+		{ 
+			GO->rigidBody->SetPosition(GO->InitPosition); 
+			GO->rigidBody->SetQuatRotation(GO->InitRotaion);
+		}
 
+		if (glfwGetKey(window, GLFW_KEY_R))
+		{
+			GO->rigidBody->SetPosition(GO->position + glm::vec3(0.0f, 2.5f, 0.f));
+			GO->rigidBody->SetQuatRotation(GO->InitRotaion);
+		}
 	}
 	
 	return;

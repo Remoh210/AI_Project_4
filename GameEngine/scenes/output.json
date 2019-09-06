@@ -15,9 +15,9 @@
             "Use_Physics": true,
             "Wireframe": false,
             "Position": [
-                119.72574615478516,
-                20.798105239868164,
-                10.4869384765625
+                -139.72574615478516,
+                30.798105239868164,
+                -610.4869384765625
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -55,8 +55,197 @@
             ],
             "RigidBody": {
                 "Type": "VEHICLE",
-                "Mass": 100.0
+                "Mass": 100.0,
+				"WheelHE": [
+                1.0788,
+                3.17,
+                3.17
+				]
             }
+        },
+		{
+            "Name": "wheel0",
+            "Mesh": "wheel.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                119.72574615478516,
+                20.798105239868164,
+                10.4869384765625
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                10000000.0
+            ],
+            "Rotation": [
+                180.0,
+                47.725563049316409,
+                180.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Textures": [
+                {
+                    "Name": "deloreanTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                },
+                {
+                    "Name": "testTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                }
+            ]
+        },
+		{
+            "Name": "wheel1",
+            "Mesh": "wheel.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                119.72574615478516,
+                20.798105239868164,
+                10.4869384765625
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                10000000.0
+            ],
+            "Rotation": [
+                180.0,
+                47.725563049316409,
+                180.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Textures": [
+                {
+                    "Name": "deloreanTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                },
+                {
+                    "Name": "testTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                }
+            ]
+        },
+		{
+            "Name": "wheel2",
+            "Mesh": "wheel.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                119.72574615478516,
+                20.798105239868164,
+                10.4869384765625
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                10000000.0
+            ],
+            "Rotation": [
+                180.0,
+                47.725563049316409,
+                180.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Textures": [
+                {
+                    "Name": "deloreanTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                },
+                {
+                    "Name": "testTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                }
+            ]
+        },
+		{
+            "Name": "wheel3",
+            "Mesh": "wheel.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                119.72574615478516,
+                20.798105239868164,
+                10.4869384765625
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                10000000.0
+            ],
+            "Rotation": [
+                180.0,
+                47.725563049316409,
+                180.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Textures": [
+                {
+                    "Name": "deloreanTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                },
+                {
+                    "Name": "testTex.bmp",
+                    "Strength": 0.0,
+                    "Tile": 1.0
+                }
+            ]
         },
         {
             "Name": "delorean2",
@@ -166,7 +355,7 @@
             "Wireframe": false,
             "Position": [
                 3.40567946434021,
-                21.988384246826173,
+                15.988384246826173,
                 13.039031028747559
             ],
             "DiffuseRGB_Alpha": [
@@ -210,7 +399,7 @@
         },
         {
             "Name": "plane_floor",
-            "Mesh": "plane_floor.ply",
+            "Mesh": "terrain.ply",
             "Visible": true,
             "Use_Physics": false,
             "Wireframe": false,
@@ -237,9 +426,9 @@
                 0.0
             ],
             "Scale": [
-                1000.0,
-                1000.0,
-                1000.0
+                1.0,
+                1.0,
+                1.0
             ],
             "Textures": [
                 {
@@ -259,7 +448,7 @@
                 }
             ],
             "RigidBody": {
-                "Type": "PLANE",
+                "Type": "MESH_COLLIDER",
                 "Constant": 0.0,
                 "Normal": [
                     0.0,
