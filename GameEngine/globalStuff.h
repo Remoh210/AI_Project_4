@@ -73,6 +73,7 @@ extern double deltaTime;
 //Global screen size
 extern unsigned int SCR_WIDTH;
 extern unsigned int SCR_HEIGHT;
+extern unsigned int gSuspensionStiffness;
 extern int gFogDensity;
 extern glm::vec3 g_Gravity;
 

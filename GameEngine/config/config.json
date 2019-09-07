@@ -2,7 +2,7 @@
     "Window": {
         "Width": 1600,
         "Height": 900,
-        "Title" : "Game Jam!",
+        "Title" : "Karts!",
 		"FullScreen" : false
     },
     "Language" : "English",

@@ -2,14 +2,14 @@
     "Camera": {
         "Speed": 100.0,
         "Position": [
-            76.27063751220703,
-            89.77297973632813,
-            148.18682861328126
+            -100.27063751220703,
+            79.77297973632813,
+            -500.18682861328126
         ]
     },
     "GameObjects": [
         {
-            "Name": "delorean1",
+            "Name": "delorean2",
             "Mesh": "delorean.ply",
             "Visible": true,
             "Use_Physics": true,
@@ -22,7 +22,7 @@
             "DiffuseRGB_Alpha": [
                 0.0,
                 0.0,
-                1.0,
+                0.0,
                 1.0
             ],
             "SpecularRGB_Alpha": [
@@ -54,7 +54,7 @@
                 }
             ],
             "RigidBody": {
-                "Type": "VEHICLE",
+                "Type": "BOX",
                 "Mass": 100.0,
 				"WheelHE": [
                 1.0788,
@@ -248,7 +248,7 @@
             ]
         },
         {
-            "Name": "delorean2",
+            "Name": "delorean1",
             "Mesh": "delorean.ply",
             "Visible": true,
             "Use_Physics": true,
@@ -292,9 +292,14 @@
                     "Tile": 1.0
                 }
             ],
-            "RigidBody": {
-                "Type": "BOX",
-                "Mass": 400.0
+			"RigidBody": {
+                "Type": "VEHICLE",
+                "Mass": 100.0,
+				"WheelHE": [
+                1.0788,
+                3.17,
+                3.17
+				]
             }
         },
         {

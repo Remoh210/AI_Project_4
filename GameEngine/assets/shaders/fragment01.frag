@@ -119,7 +119,7 @@ uniform float FogDensity;
 const vec3 fogColor = vec3(0.5, 0.5,0.5);
 //const float FogDensity = 0.008;
 //const float FogDensity = 0.008;
-float ambientAmount = 0.3;
+float ambientAmount = 0.4;
 void main()
 {
 

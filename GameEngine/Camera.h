@@ -62,7 +62,7 @@ public:
 		b_controlledByScript = false;
 		//if(target != NULL)
 		//{
-		mCameraType = THIRD_PERSON;
+		//mCameraType = THIRD_PERSON;
 		//}
 		//else
 		//{
@@ -88,7 +88,8 @@ public:
 	// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix()
 	{
-		//if (!this->b_controlledByScript) { return glm::lookAt(Position, Position + Front, Up);}
+		if (this->b_controlledByScript) {
+			return newViewMat;}
 		/*else { return newViewMat; }*/
 
 		switch (mCameraType)
@@ -152,6 +153,7 @@ public:
 				if (Pitch < -89.0f)
 					Pitch = -89.0f;
 			}
+			updateCameraVectors();
 			break;
 		case AIM:
 		{
@@ -159,7 +161,8 @@ public:
 				Pitch = 80.0f;
 			if (Pitch < -80.0f)
 				Pitch = -80.0f;
-
+			updateCameraVectors();
+			break;
 		}
 		case THIRD_PERSON:
 			if (constrainPitch)
@@ -172,7 +175,7 @@ public:
 			break;
 		}
 		// Update Front, Right and Up Vectors using the updated Euler angles
-		updateCameraVectors();
+		//updateCameraVectors();
 	}
 
 
@@ -255,7 +258,7 @@ public:
 			if (posDirection.y < 0.05f)
 				posDirection.y = 0.05f;
      
-			Position = Front + posDirection * 20.0f;
+			Position = Front + posDirection * 30.0f;
 		}
 		break;
 		case AIM:

@@ -512,8 +512,93 @@ bool AreAllModifiersUp(GLFWwindow* window)
 
 void ProcessAsynKeys(GLFWwindow* window)
 {
-
 	cGameObject* GO = findObjectByFriendlyName("delorean1");
+
+
+	if (glfwJoystickPresent(GLFW_JOYSTICK_1))
+	{
+		int count;
+		const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+		const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
+
+		if (std::abs(axes[2]) > 0.2f || std::abs(axes[5]) > 0.2f)
+		{
+			camera.ProcessJoystickMovement(axes[2] * deltaTime, axes[5] * deltaTime);
+		}
+
+		//if (axes[0] > 0.2f)
+		//{
+
+		//}
+
+
+		if (buttons[14] == GLFW_PRESS)
+		{
+			gSuspensionStiffness++;
+			GO->Vehicle->SetSuspensionStiffness(gSuspensionStiffness);
+		}
+
+		if (buttons[16] == GLFW_PRESS)
+		{
+			if (gSuspensionStiffness > 0) {
+				gSuspensionStiffness--;
+			}
+			GO->Vehicle->SetSuspensionStiffness(gSuspensionStiffness);
+		}
+
+		GO->Vehicle->SetSteering(-axes[0] * 0.6);
+
+		if (buttons[1] == GLFW_PRESS)
+		{
+			GO->Vehicle->SetBrakes(20.6);
+		}
+		else
+		{
+			GO->Vehicle->SetBrakes(0);
+		}
+
+		if (buttons[2] == GLFW_PRESS)
+		{
+			GO->rigidBody->SetPosition(GO->position + glm::vec3(0.0f, 1.5f, 0.f));
+			GO->rigidBody->SetQuatRotation(GO->InitRotaion);
+			GO->rigidBody->SetVelocity(glm::vec3(0.0f));
+			GO->rigidBody->SetAngularVelocity(glm::vec3(0.0f));
+		}
+
+		if (buttons[3] == GLFW_PRESS)
+		{
+			GO->rigidBody->SetPosition(GO->InitPosition);
+			GO->rigidBody->SetQuatRotation(GO->InitRotaion);
+			GO->rigidBody->SetVelocity(glm::vec3(0.0f));
+			GO->rigidBody->SetAngularVelocity(glm::vec3(0.0f));
+		}
+
+		if (axes[3] > 0.0f)
+		{
+			//std::cout << (axes[3] * 1000) << std::endl;
+			//GO->Vehicle->SetBrakes(axes[3] * 1000);
+			GO->Vehicle->AddEngineForce(-axes[3] * 600);
+		}
+
+		if (axes[4] > 0.0f)
+		{
+
+			GO->Vehicle->AddEngineForce(axes[4] * 1000);
+
+		}
+		else if (axes[3] > 0.0f)
+		{
+			//std::cout << (axes[3] * 1000) << std::endl;
+			//GO->Vehicle->SetBrakes(axes[3] * 1000);
+			GO->Vehicle->AddEngineForce(-axes[3] * 800);
+		}
+		else
+		{
+			GO->Vehicle->AddEngineForce(0.f);
+		}
+	}
+
+	
 
 
 	const float CAMERA_SPEED_SLOW = 100.0f;
@@ -717,12 +802,16 @@ void ProcessAsynKeys(GLFWwindow* window)
 		{ 
 			GO->rigidBody->SetPosition(GO->InitPosition); 
 			GO->rigidBody->SetQuatRotation(GO->InitRotaion);
+			GO->rigidBody->SetVelocity(glm::vec3(0.0f));
+			GO->rigidBody->SetAngularVelocity(glm::vec3(0.0f));
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_R))
 		{
 			GO->rigidBody->SetPosition(GO->position + glm::vec3(0.0f, 2.5f, 0.f));
 			GO->rigidBody->SetQuatRotation(GO->InitRotaion);
+			GO->rigidBody->SetVelocity(glm::vec3(0.0f));
+			GO->rigidBody->SetAngularVelocity(glm::vec3(0.0f));
 		}
 	}
 	

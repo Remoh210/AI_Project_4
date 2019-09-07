@@ -61,7 +61,7 @@ cLuaBrain *p_LuaScripts = NULL;
 cTextRend *g_textRenderer = NULL;
 cCharacterManager *g_pCharacterManager = NULL;
 
-// cCommandGroup sceneCommandGroup;
+cCommandGroup sceneCommandGroup("SceneGr");
 int cou;
 int nbFrames = 0;
 int FPS = 0;
@@ -76,6 +76,7 @@ double deltaTime = 0;
 double FPS_last_Time = 0;
 bool bIsDebugMode = false;
 bool bFullScreen = false;
+unsigned int gSuspensionStiffness = 15;
 
 // for collision
 float time = 0.0f;
@@ -409,8 +410,36 @@ int main(void) {
 
 
 
+  camera.b_controlledByScript = false;
+  camera.setThirdPerson(findObjectByFriendlyName("delorean1"));
+  //COMMANDS
+  cFollowObjectCommand* newCommand = new cFollowObjectCommand();
 
+  cGameObject* p_camObj = new cGameObject();
+  p_camObj->friendlyName = "cameraObj";
+  p_camObj->position = camera.Position;
 
+  std::vector<sNVPair> vecInitValues;
+
+  sNVPair ObjectToMove;				ObjectToMove.pMeshObj = p_camObj;
+  sNVPair IdealRelPos;				IdealRelPos.v3Value = glm::vec3(0.0f, 10.0f, 20.0f);
+  sNVPair minDistance;				minDistance.fValue = 8;
+  sNVPair maxSpeedDistance;			maxSpeedDistance.fValue = 30;
+  sNVPair maxSpeed;					maxSpeed.fValue = 100;
+  sNVPair TargetObject;				TargetObject.pMeshObj = findObjectByFriendlyName("delorean1");
+  sNVPair Time;						Time.fValue = 0;
+
+  vecInitValues.push_back(ObjectToMove);
+  vecInitValues.push_back(IdealRelPos);
+  vecInitValues.push_back(minDistance);
+  vecInitValues.push_back(maxSpeedDistance);
+  vecInitValues.push_back(maxSpeed);
+  vecInitValues.push_back(TargetObject);
+  vecInitValues.push_back(Time);
+
+  newCommand->Initialize(vecInitValues);
+  //sceneCommandGroup.vecCommands.push_back(newCommand);
+  
 
 
   
@@ -590,12 +619,12 @@ int main(void) {
         else
           strhited = "Ray Hit: Nothing";*/
 		
-		std::string artCount = "Speed : " + std::to_string(findObjectByFriendlyName("delorean1")->Vehicle->GetSpeed()/10) + " km/h";
+		std::string speedKm = "Speed : " + std::to_string(findObjectByFriendlyName("delorean1")->Vehicle->GetSpeed()/10) + " km/h";
         //g_textRenderer->drawText(screen_quad.width, screen_quad.height, strhited.c_str(), 100.0f);
-		g_textRenderer->drawText(screen_quad.width, screen_quad.height, artCount.c_str(), 150.0f);
-		if (gameCounter > 3) {
-			g_textRenderer->drawText(screen_quad.width, screen_quad.height, ("Conradulations! You Win!"), 200.0f);
-		}
+		g_textRenderer->drawText(screen_quad.width, screen_quad.height, speedKm.c_str(), 150.0f);
+		std::string suspension = "Suspension Stiffness : " + std::to_string(gSuspensionStiffness);
+		g_textRenderer->drawText(screen_quad.width, screen_quad.height, suspension.c_str(), 200.0f);
+		
         // g_textRenderer->drawText(width, height,"Ray hit: " + RayHitted ?
         // "no": "yes" , 200.0f);
 
@@ -638,99 +667,6 @@ int main(void) {
 		
 
 
-	std::string PairF = gPhysicsWorld->GetLastColPair().first;
-	std::string PairS = gPhysicsWorld->GetLastColPair().second;
-
-	if (!collidedA) {
-		if (PairF == "artifact_1" && PairS == "ghostSphere1" ||
-			PairS == "artifact_1" && PairF == "ghostSphere1") {
-
-			collidedA = true;
-			cGameObject* artifact = findObjectByFriendlyName("artifact_1");
-			artifact->bIsVisible = false;
-			gPhysicsWorld->RemoveBody(artifact->rigidBody);
-			artifact->rigidBody->~iRigidBody();
-			artifact->rigidBody = NULL;
-			gameCounter += 1;
-		}
-	}
-
-	if (!collidedB) {
-		if (PairF == "artifact_2" && PairS == "ghostSphere1" ||
-			PairS == "artifact_2" && PairF == "ghostSphere1") {
-
-			collidedB = true;
-			cGameObject* artifact = findObjectByFriendlyName("artifact_2");
-			artifact->bIsVisible = false;
-			gPhysicsWorld->RemoveBody(artifact->rigidBody);
-			artifact->rigidBody->~iRigidBody();
-			artifact->rigidBody = NULL;
-			gameCounter += 1;
-		}
-	}
-
-	if (!collidedC) {
-		if (PairF == "artifact_3" && PairS == "ghostSphere1" ||
-			PairS == "artifact_3" && PairF == "ghostSphere1") {
-
-			collidedC = true;
-			cGameObject* artifact = findObjectByFriendlyName("artifact_3");
-			artifact->bIsVisible = false;
-			gPhysicsWorld->RemoveBody(artifact->rigidBody);
-			artifact->rigidBody->~iRigidBody();
-			artifact->rigidBody = NULL;
-			gameCounter += 1;
-		}
-	}
-
-	if (!collidedD) {
-		if (PairF == "artifact_4" && PairS == "ghostSphere1" ||
-			PairS == "artifact_4" && PairF == "ghostSphere1") {
-
-			collidedD = true;
-			cGameObject* artifact = findObjectByFriendlyName("artifact_4");
-			
-			artifact->bIsVisible = false;
-			gPhysicsWorld->RemoveBody(artifact->rigidBody);
-			artifact->rigidBody->~iRigidBody();
-			artifact->rigidBody = NULL;
-			gameCounter += 1;
-		}
-	}
-
-
-
-
-
-	if (PairF == "mutant-1" && PairS == "chan" ||
-		PairS == "mutant-1" && PairF == "chan") {
-
-		for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
-			vec_pObjectsToDraw[i]->position = vec_pObjectsToDraw[i]->InitPosition;
-		}
-		gameCounter = 0;
-	}
-	if (PairF == "mutant-2" && PairS == "chan" ||
-		PairS == "mutant-2" && PairF == "chan") {
-
-		for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
-			vec_pObjectsToDraw[i]->position = vec_pObjectsToDraw[i]->InitPosition;
-		}
-
-		gameCounter = 0;
-	}
-	if (PairF == "mutant-3" && PairS == "chan" ||
-		PairS == "mutant-3" && PairF == "chan") {
-
-		for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
-			if (vec_pObjectsToDraw[i]->rigidBody != NULL && vec_pObjectsToDraw[i]->rigidBody->GetMass() != 0.0f)
-			{
-				vec_pObjectsToDraw[i]->rigidBody->SetPosition(vec_pObjectsToDraw[i]->InitPosition);
-			}
-			
-		}
-		gameCounter = 0;
-	}
 
 
 
@@ -804,51 +740,7 @@ int main(void) {
 
 
 
-    //if (bIsDebugMode) {
-    //  // Call the debug renderer
-    //  for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
-    //    cGameObject *curObj = vec_pObjectsToDraw[i];
-    //    // curObj->bIsVisible = false;
-    //    curObj->bDontLight = true;
-    //    if (curObj->rigidBody != NULL) {
-    //      if (curObj->rigidBody->GetShape()->GetShapeType() ==
-    //          nPhysics::SHAPE_TYPE_SPHERE) {
 
-    //        float rad;
-    //        curObj->rigidBody->GetShape()->GetSphereRadius(rad);
-    //        g_simpleDubugRenderer->drawCube(curObj->rigidBody->GetPosition(),
-    //                                        rad);
-    //      }
-
-    //      // if (curObj->rigidBody->GetShape()->GetShapeType() ==
-    //      // nPhysics::SHAPE_TYPE_PLANE) {
-    //      //	//curObj->bIsWireFrame = true;
-    //      //	//curObj->bIsVisible = true;
-    //      //	//glm::mat4 matIden = glm::mat4(1.0f);
-    //      //	//DrawObject(curObj, matIden, program);
-    //      //}
-    //    }
-    //    if (curObj->softBody != NULL) {
-
-    //      glm::vec3 max;
-    //      glm::vec3 min;
-    //      glm::vec3 center;
-    //      curObj->softBody->GetAABB(min, max);
-    //      center = (min + max) / 2.0f;
-    //      float size = glm::distance(min, max) / 2.0f;
-    //      g_simpleDubugRenderer->drawCube(center, size);
-    //    }
-    //  }
-    //} else {
-    //  for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
-    //    cGameObject *curObj = vec_pObjectsToDraw[i];
-    //    if (!curObj->bIsDebug) {
-    //      curObj->bIsVisible = true;
-    //      curObj->bIsWireFrame = false;
-    //      curObj->bDontLight = false;
-    //    }
-    //  }
-    //}
 
 #pragma endregion
 #pragma region whatever
@@ -863,8 +755,12 @@ int main(void) {
 	//::p_LuaScripts->Update(deltaTime);
 	behavManager->update(deltaTime);
 	g_pSoundManager->Update();
-
-
+	sceneCommandGroup.Update(deltaTime);
+	if(camera.mCameraType == THIRD_PERSON)
+	{
+		camera.updateCameraVectors();
+	}
+	
 
 #pragma endregion
     UpdateWindowTitle();
