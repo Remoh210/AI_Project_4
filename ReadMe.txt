@@ -1,4 +1,4 @@
-!!Run elease x64!!
+!!Run x64!!
 
 
 
